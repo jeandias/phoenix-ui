@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, Input} from '@angular/core';
 import {AuthService} from "../services/auth.service";
+import {User} from "../models/user";
 
 @Component({
   selector: 'app-sign-in',
@@ -7,14 +8,18 @@ import {AuthService} from "../services/auth.service";
   styleUrls: ['./sign-in.component.css']
 })
 export class SignInComponent implements OnInit {
-  model: any = {};
+  @Input() user:User;
 
-  constructor(private auth:AuthService) { }
-
-  ngOnInit() {
+  constructor(private auth:AuthService) {
   }
 
-  login() {
-    this.auth.login(this.model.username, this.model.password);
+  ngOnInit() {
+    this.user = new User;
+  }
+
+  login(): void {
+    this.auth.authenticate(this.user as User).subscribe(user => {
+      console.log(user);
+    });
   }
 }
