@@ -1,12 +1,12 @@
 <form name="form" class="form-signin" (ngSubmit)="f.form.valid && login()" #f="ngForm" novalidate>
   <h1 class="form-signin-heading text-muted">Phoenix</h1>
   <div [ngClass]="{ 'has-error': f.submitted && !name.valid }">
-    <input type="text" class="form-control" id="name" name="name" [(ngModel)]="user.name"
+    <input type="text" class="form-control" id="name" name="name" [(ngModel)]="model.name"
            #name="ngModel" placeholder="Username" required autofocus/>
     <div *ngIf="f.submitted && !name.valid">Username is required</div>
   </div>
   <div [ngClass]="{ 'has-error': f.submitted && !password.valid }">
-    <input type="password" class="form-control" id="password" name="password" [(ngModel)]="user.password"
+    <input type="password" class="form-control" id="password" name="password" [(ngModel)]="model.password"
            #password="ngModel" placeholder="Password" required/>
     <div *ngIf="f.submitted && !password.valid">Password is required</div>
   </div>

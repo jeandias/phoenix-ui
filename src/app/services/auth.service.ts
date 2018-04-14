@@ -1,11 +1,10 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 
-import {JwtHelperService} from '@auth0/angular-jwt';
-
 import {Observable} from 'rxjs/Observable';
 import {of} from 'rxjs/observable/of';
 import {catchError, tap} from 'rxjs/operators';
+
 import {User} from "../models/user";
 
 const httpOptions = {
@@ -15,23 +14,24 @@ const httpOptions = {
 @Injectable()
 export class AuthService {
 
-  private authUrl = 'http://localhost:3000/v1/auth/users/authenticate';  // URL to web api
+  private authUrl = 'https://phoenix.euroconsumers.org/api/v1/auth/users/authenticate';  // URL to web api
 
-  constructor(public jwtHelper:JwtHelperService, private http:HttpClient) {
+  constructor(private http:HttpClient) {
   }
 
-  public isAuthenticated():boolean {
-    const token = localStorage.getItem('token');
-    // Check whether the token is expired and return
-    // true or false
-    return !this.jwtHelper.isTokenExpired(token);
-  }
-
-  public authenticate(user: User):Observable<User> {
+  authenticate(user: User):Observable<User> {
     return this.http.post<User>(this.authUrl, {login: user.name, password: btoa(user.password)}, httpOptions).pipe(
-      tap((user:User) => this.log(`user w/ id=${user.id}`)),
+      tap((data:any) => {
+        localStorage.setItem('user', JSON.stringify(data.user));
+        return true;
+      }),
       catchError(this.handleError<User>('authenticate'))
     );
+  }
+
+  logout() {
+    // remove user from local storage to log user out
+    localStorage.removeItem('user');
   }
 
   /**

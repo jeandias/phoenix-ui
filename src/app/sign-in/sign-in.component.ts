@@ -1,4 +1,6 @@
 import {Component, OnInit, Input} from '@angular/core';
+import {ActivatedRoute, Router} from "@angular/router";
+
 import {AuthService} from "../services/auth.service";
 import {User} from "../models/user";
 
@@ -8,18 +10,24 @@ import {User} from "../models/user";
   styleUrls: ['./sign-in.component.css']
 })
 export class SignInComponent implements OnInit {
-  @Input() user:User;
+  model: any = {};
+  returnUrl:string;
 
-  constructor(private auth:AuthService) {
+  constructor(private auth:AuthService,
+              private route:ActivatedRoute,
+              private router:Router) {
   }
 
   ngOnInit() {
-    this.user = new User;
+    // reset login status
+    this.auth.logout();
+    // get return url from route parameters or default to '/'
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
 
-  login(): void {
-    this.auth.authenticate(this.user as User).subscribe(user => {
-      console.log(user);
+  login() {
+    this.auth.authenticate(this.model as User).subscribe(data => {
+      this.router.navigate([this.returnUrl]);
     });
   }
 }
