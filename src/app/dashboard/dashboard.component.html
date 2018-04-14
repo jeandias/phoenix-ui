@@ -1,5 +1,17 @@
 <div>
   <h1>Hi {{user.name}}!</h1>
-  <p>You're logged in with Angular 2!</p>
+
+  <kendo-grid [data]="list"
+              [height]="700">
+    <kendo-grid-column field="name" title="Product Category"></kendo-grid-column>
+    <kendo-grid-column field="test_project_name" title="Project"></kendo-grid-column>
+    <kendo-grid-column field="code" title="Code" width="110"></kendo-grid-column>
+    <kendo-grid-column field="test_status" title="Status" width="70"></kendo-grid-column>
+    <kendo-grid-column field="pub_channel_name" title="Publication Channel"></kendo-grid-column>
+    <kendo-grid-column field="pub_channel_type_name" title="Type" width="140"></kendo-grid-column>
+    <kendo-grid-column field="pch_active" title="Active" width="70"></kendo-grid-column>
+    <kendo-grid-column field="qty_prd_cat" title="Qty Product" width="70"></kendo-grid-column>
+  </kendo-grid>
+
   <p><a [routerLink]="['/sign-in']">Logout</a></p>
 </div>

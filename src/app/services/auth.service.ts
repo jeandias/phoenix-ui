@@ -19,10 +19,11 @@ export class AuthService {
   constructor(private http:HttpClient) {
   }
 
-  authenticate(user: User):Observable<User> {
+  authenticate(user:User):Observable<User> {
     return this.http.post<User>(this.authUrl, {login: user.name, password: btoa(user.password)}, httpOptions).pipe(
       tap((data:any) => {
         localStorage.setItem('user', JSON.stringify(data.user));
+        localStorage.setItem('token', data.token);
         return true;
       }),
       catchError(this.handleError<User>('authenticate'))
