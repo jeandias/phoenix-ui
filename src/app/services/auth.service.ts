@@ -5,6 +5,7 @@ import {Observable} from 'rxjs/Observable';
 import {of} from 'rxjs/observable/of';
 import {catchError, tap} from 'rxjs/operators';
 
+import {environment} from '../../environments/environment';
 import {User} from "../models/user";
 
 const httpOptions = {
@@ -14,13 +15,12 @@ const httpOptions = {
 @Injectable()
 export class AuthService {
 
-  private authUrl = 'https://phoenix.euroconsumers.org/api/v1/auth/users/authenticate';  // URL to web api
-
   constructor(private http:HttpClient) {
   }
 
   authenticate(user:User):Observable<User> {
-    return this.http.post<User>(this.authUrl, {login: user.name, password: btoa(user.password)}, httpOptions).pipe(
+    const url = environment.apiUrl + 'auth/users/authenticate';
+    return this.http.post<User>(url, {login: user.name, password: btoa(user.password)}, httpOptions).pipe(
       tap((data:any) => {
         localStorage.setItem('user', JSON.stringify(data.user));
         localStorage.setItem('token', data.token);

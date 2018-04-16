@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {environment} from '../../environments/environment';
 
 const httpOptions = {
   headers: new HttpHeaders({'X-Token': localStorage.getItem('token')})
@@ -12,7 +13,7 @@ export class DashboardService {
   }
 
   getPublicationChannels() {
-    const url = 'https://phoenix.euroconsumers.org/api/v1/ppm/product_categories/dashboard_user_partial/?country_id=4';
+    const url = environment.apiUrl + '/ppm/product_categories/dashboard_user_partial/?country_id=4';
     return this.http.get(url, httpOptions);
   }
 }
