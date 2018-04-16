@@ -13,7 +13,7 @@ export class DashboardService {
   }
 
   getPublicationChannels() {
-    const url = environment.apiUrl + '/ppm/product_categories/dashboard_user_partial/?country_id=4';
+    const url = environment.apiUrl + 'ppm/product_categories/dashboard_user_partial/?country_id=4';
     return this.http.get(url, httpOptions);
   }
 }

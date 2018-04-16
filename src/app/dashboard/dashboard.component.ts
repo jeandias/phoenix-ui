@@ -16,6 +16,7 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.list = [];
     this.user = JSON.parse(localStorage.getItem('user'));
     this.service.getPublicationChannels().subscribe((list:any[]) => {
       this.list = list
